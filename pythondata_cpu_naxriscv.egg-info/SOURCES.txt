@@ -1,0 +1,12 @@
+MANIFEST.in
+README.md
+setup.py
+pythondata_cpu_naxriscv/__init__.py
+pythondata_cpu_naxriscv.egg-info/PKG-INFO
+pythondata_cpu_naxriscv.egg-info/SOURCES.txt
+pythondata_cpu_naxriscv.egg-info/dependency_links.txt
+pythondata_cpu_naxriscv.egg-info/not-zip-safe
+pythondata_cpu_naxriscv.egg-info/top_level.txt
+pythondata_cpu_naxriscv/verilog/Ram_1w_1rs_Efinix.v
+pythondata_cpu_naxriscv/verilog/Ram_1w_1rs_Generic.v
+pythondata_cpu_naxriscv/verilog/Ram_1w_1rs_Intel.v
