@@ -10,7 +10,6 @@ import naxriscv.prediction._
 import naxriscv.utilities._
 import naxriscv._
 
-val resetVector = 0
 def ioRange   (address : UInt) : Bool = address(30, 2 bits) =/= U"01"
 def fetchRange (address : UInt) : Bool = SizeMapping(0x40000000, 0x10000000).hit(address) || SizeMapping(0, 0x00020000).hit(address)
 
