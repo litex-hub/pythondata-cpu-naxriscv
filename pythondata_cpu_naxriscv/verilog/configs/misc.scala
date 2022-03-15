@@ -15,9 +15,13 @@ def fetchRange (address : UInt) : Bool = SizeMapping(0x40000000, 0x10000000).hit
 
 plugins += new DocPlugin()
 plugins += new MmuPlugin(
-  spec    = MmuSpec.sv32,
+  spec = xlen match {
+     case 32 => MmuSpec.sv32
+     case 64 => MmuSpec.sv39
+  },
   ioRange = ioRange,
-  fetchRange = fetchRange
+  fetchRange = fetchRange,
+  physicalWidth = 32
 )
 
 
