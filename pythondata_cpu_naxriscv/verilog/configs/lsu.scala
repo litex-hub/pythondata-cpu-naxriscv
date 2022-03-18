@@ -22,7 +22,7 @@ plugins += new LsuPlugin(
   ),
   loadTranslationParameter  = MmuPortParameter(
     readAt = 0,
-    hitsAt = 1,
+    hitsAt = 0,
     ctrlAt = 1,
     rspAt  = 1
   ),
