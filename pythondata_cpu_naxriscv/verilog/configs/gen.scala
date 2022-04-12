@@ -31,6 +31,9 @@ plugins ++= Config.plugins(
 )
 
 plugins.foreach{
-  case p : EmbeddedJtagPlugin => if(!p.withTap) p.noTapCd.load(ClockDomain.external("jtag_instruction", withReset = false))
+  case p : EmbeddedJtagPlugin => {
+    if(!p.withTap) p.noTapCd.load(ClockDomain.external("jtag_instruction", withReset = false))
+    p.debugCd.load(ClockDomain.current.copy(reset = Bool().setName("debug_reset")))
+  }
   case _ =>
 }
