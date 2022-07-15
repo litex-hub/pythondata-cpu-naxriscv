@@ -25,10 +25,13 @@ plugins ++= Config.plugins(
   withRvc = arg("rvc", false),
   withLoadStore = true,
   withMmu = arg("mmu", true),
+  withFloat  = arg("rvf", false),
+  withDouble = arg("rvd", false),
   withDebug = debug,
   withEmbeddedJtagTap = jtagTap,
   withEmbeddedJtagInstruction = jtagInstruction
 )
+//plugins += new XilinxDebug()
 
 plugins.foreach{
   case p : EmbeddedJtagPlugin => {
