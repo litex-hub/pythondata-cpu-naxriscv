@@ -31,7 +31,7 @@ plugins ++= Config.plugins(
   withEmbeddedJtagTap = jtagTap,
   withEmbeddedJtagInstruction = jtagInstruction
 )
-plugins += new XilinxDebug()
+//plugins += new XilinxDebug()
 
 plugins.foreach{
   case p : EmbeddedJtagPlugin => {
