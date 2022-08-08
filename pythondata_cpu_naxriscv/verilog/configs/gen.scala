@@ -12,7 +12,7 @@ import naxriscv.debug._
 import naxriscv._
 
 def ioRange   (address : UInt) : Bool = address(30, 2 bits) =/= U"01"
-def fetchRange (address : UInt) : Bool = SizeMapping(0x40000000, 0x10000000).hit(address) || SizeMapping(0, 0x00020000).hit(address)
+def fetchRange (address : UInt) : Bool = SizeMapping(0x40000000, 0x20000000).hit(address) || SizeMapping(0, 0x00020000).hit(address)
 
 plugins ++= Config.plugins(
   xlen = xlen,
@@ -31,7 +31,7 @@ plugins ++= Config.plugins(
   withEmbeddedJtagTap = jtagTap,
   withEmbeddedJtagInstruction = jtagInstruction
 )
-//plugins += new XilinxDebug()
+plugins += new XilinxDebug()
 
 plugins.foreach{
   case p : EmbeddedJtagPlugin => {
