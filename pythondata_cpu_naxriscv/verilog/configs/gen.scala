@@ -32,6 +32,7 @@ plugins ++= Config.plugins(
   withEmbeddedJtagInstruction = jtagInstruction
 )
 //plugins += new XilinxDebug()
+//plugins += new DebugScratchCsrPlugin(3)
 
 plugins.foreach{
   case p : EmbeddedJtagPlugin => {
