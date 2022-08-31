@@ -1,4 +1,5 @@
 import spinal.core._
+import spinal.lib._
 import naxriscv.compatibility._
 import naxriscv.frontend._
 import naxriscv.fetch._
@@ -11,13 +12,8 @@ import naxriscv.utilities._
 import naxriscv.debug._
 import naxriscv._
 
-def ioRange (address : UInt) : Bool = {
-  if(args.contains("mem-region-origin"))
-    !SizeMapping(BigInt(args("mem-region-origin").toString), BigInt(args("mem-region-length").toString)).hit(address)
-  else 
-    True
-}
-def fetchRange (address : UInt) : Bool = SizeMapping(0x40000000, 0x20000000).hit(address) || SizeMapping(0, 0x00020000).hit(address)
+def ioRange (address : UInt) : Bool = memoryRegions.filter(_.isIo).map(_.mapping.hit(address)).orR
+def fetchRange (address : UInt) : Bool = memoryRegions.filter(_.isExecutable).map(_.mapping.hit(address)).orR
 
 plugins ++= Config.plugins(
   xlen = xlen,
