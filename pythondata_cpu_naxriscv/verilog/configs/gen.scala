@@ -12,12 +12,14 @@ import naxriscv.utilities._
 import naxriscv.debug._
 import naxriscv._
 
+println(memoryRegions.mkString("\n"))
 def ioRange (address : UInt) : Bool = memoryRegions.filter(_.isIo).map(_.mapping.hit(address)).orR
 def fetchRange (address : UInt) : Bool = memoryRegions.filter(_.isExecutable).map(_.mapping.hit(address)).orR
+def peripheralRange (address : UInt) : Bool = memoryRegions.filter(_.onPeripheral).map(_.mapping.hit(address)).orR
 
 plugins ++= Config.plugins(
   xlen = xlen,
-  ioRange = ioRange,
+  ioRange = peripheralRange, //Note is is peripheralRange, not ioRange
   fetchRange = fetchRange,
   resetVector = resetVector,
   aluCount    = arg("alu-count", 2),
@@ -33,6 +35,7 @@ plugins ++= Config.plugins(
   withEmbeddedJtagInstruction = jtagInstruction
 )
 //plugins += new XilinxDebug()
+//plugins += new DebugScratchCsrPlugin(3)
 
 plugins.foreach{
   case p : EmbeddedJtagPlugin => {
