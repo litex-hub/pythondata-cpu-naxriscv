@@ -1,4 +1,5 @@
 import spinal.core._
+import spinal.lib._
 import naxriscv.compatibility._
 import naxriscv.frontend._
 import naxriscv.fetch._
@@ -11,12 +12,14 @@ import naxriscv.utilities._
 import naxriscv.debug._
 import naxriscv._
 
-def ioRange   (address : UInt) : Bool = address(30, 2 bits) =/= U"01"
-def fetchRange (address : UInt) : Bool = SizeMapping(0x40000000, 0x20000000).hit(address) || SizeMapping(0, 0x00020000).hit(address)
+println(memoryRegions.mkString("\n"))
+def ioRange (address : UInt) : Bool = memoryRegions.filter(_.isIo).map(_.mapping.hit(address)).orR
+def fetchRange (address : UInt) : Bool = memoryRegions.filter(_.isExecutable).map(_.mapping.hit(address)).orR
+def peripheralRange (address : UInt) : Bool = memoryRegions.filter(_.onPeripheral).map(_.mapping.hit(address)).orR
 
 plugins ++= Config.plugins(
   xlen = xlen,
-  ioRange = ioRange,
+  ioRange = peripheralRange, //Note is is peripheralRange, not ioRange
   fetchRange = fetchRange,
   resetVector = resetVector,
   aluCount    = arg("alu-count", 2),
