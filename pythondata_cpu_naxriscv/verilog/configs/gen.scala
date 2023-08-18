@@ -34,7 +34,7 @@ plugins ++= Config.plugins(
   withEmbeddedJtagTap = false,
   withEmbeddedJtagInstruction = false,
   withCoherency = true,      
-  withRdTime = false
+  withRdTime = true
 )
 //plugins += new XilinxDebug()
 //plugins += new DebugScratchCsrPlugin(3)
