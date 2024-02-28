@@ -19,7 +19,7 @@ def peripheralRange (address : UInt) : Bool = memoryRegions.filter(_.onPeriphera
 
 plugins ++= Config.plugins(
   xlen = xlen,
-  ioRange = peripheralRange, //Note is is peripheralRange, not ioRange
+  ioRange = ioRange,
   fetchRange = fetchRange,
   resetVector = resetVector,
   aluCount    = arg("alu-count", 2),
@@ -31,16 +31,12 @@ plugins ++= Config.plugins(
   withFloat  = arg("rvf", false),
   withDouble = arg("rvd", false),
   withDebug = debug,
-  withEmbeddedJtagTap = jtagTap,
-  withEmbeddedJtagInstruction = jtagInstruction
+  withEmbeddedJtagTap = false,
+  withEmbeddedJtagInstruction = false,
+  withCoherency = true,      
+  withRdTime = true
 )
 //plugins += new XilinxDebug()
 //plugins += new DebugScratchCsrPlugin(3)
 
-plugins.foreach{
-  case p : EmbeddedJtagPlugin => {
-    if(!p.withTap) p.noTapCd.load(ClockDomain.external("jtag_instruction", withReset = false))
-    p.debugCd.load(ClockDomain.current.copy(reset = Bool().setName("debug_reset")))
-  }
-  case _ =>
-}
+
