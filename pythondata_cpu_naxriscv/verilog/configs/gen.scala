@@ -12,15 +12,17 @@ import naxriscv.utilities._
 import naxriscv.debug._
 import naxriscv._
 
-println(memoryRegions.mkString("\n"))
-def ioRange (address : UInt) : Bool = memoryRegions.filter(_.isIo).map(_.mapping.hit(address)).orR
-def fetchRange (address : UInt) : Bool = memoryRegions.filter(_.isExecutable).map(_.mapping.hit(address)).orR
-def peripheralRange (address : UInt) : Bool = memoryRegions.filter(_.onPeripheral).map(_.mapping.hit(address)).orR
+val memoryRegionsNoIo = memoryRegions.filter(!_.isIo) //Remove all IO specifications
+def ioRange (address : UInt) : Bool = memoryRegionsNoIo.filter(!_.isCachable).map(_.mapping.hit(address)).orR || SizeMapping(0xF0010000l, 0x10000).hit(address) || SizeMapping(0xF0C00000l, 0x400000).hit(address)
+def fetchRange (address : UInt) : Bool = memoryRegionsNoIo.filter(_.isExecutable).map(_.mapping.hit(address)).orR
+def peripheralRange (address : UInt) : Bool = memoryRegionsNoIo.filter(_.onPeripheral).map(_.mapping.hit(address)).orR
+def memoryRange (address : UInt) : Bool = memoryRegionsNoIo.filter(_.isCachable).map(_.mapping.hit(address)).orR
 
 plugins ++= Config.plugins(
   xlen = xlen,
   ioRange = ioRange,
   fetchRange = fetchRange,
+  memRange   = memoryRange,
   resetVector = resetVector,
   aluCount    = arg("alu-count", 2),
   decodeCount = arg("decode-count", 2),
